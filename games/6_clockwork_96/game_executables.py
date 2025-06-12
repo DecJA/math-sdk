@@ -9,7 +9,11 @@ class GameExecutables(GameCalculations):
     def draw_base_values(self):
         "Blank on first position"
         self.board = [[]] * self.config.num_reels
-        self.board[0] = [self.create_symbol("B")]
+        if self.criteria in ["0", "basegame"]:
+            self.board[0] = [self.create_symbol("B")]
+        else:
+            self.board[0] = [self.create_symbol("S")]
+
         for i in range(1, len(self.board)):
             sym = get_random_outcome(self.config.symbol_values[self.gametype])
             self.board[i] = [self.create_symbol(str(sym))]
@@ -18,17 +22,37 @@ class GameExecutables(GameCalculations):
 
     def draw_freegame_values(self):
         "Blank on end position"
-        self.board = [] * len(self.config.num_reels)
-        for i in range(1, len(self.board) - 1):
-            sym = get_random_outcome(self.config.symbol_values)
-            self.board[i] = self.create_symbol(sym)
-        self.board[len(self.board) - 1] = self.create_symbol("B")
-
+        self.board = [[]] * self.config.num_reels
+        for i in range(0, len(self.board) - 1):
+            sym = get_random_outcome(self.config.symbol_values[self.gametype])
+            self.board[i] = [self.create_symbol(str(sym))]
+        self.board[len(self.board) - 1] = [self.create_symbol("B")]
+        self.reel_positions = []
         reveal_event(self)
 
-    def check_fs_condition(self, scatter_key: str = "scatter") -> bool:
+    def draw_wincap_values(self):
+        "Blank on end position"
+        # Put scatter on first reel if freegame, otherwisn 9999
+        if self.gametype == "basegame":
+            self.draw_base_values()
+        elif self.gametype == "freegame":
+            for r in range(len(self.board)):
+                self.board[r] = [self.create_symbol("9")]
+        self.reel_positions = []
+        reveal_event(self)
+
+    def draw_zero_board(self):
+        "Blank on end position"
+        self.board = [[]] * self.config.num_reels
+        self.board[0] = [self.create_symbol("B")]
+        for i in range(0, len(self.board)):
+            self.board[i] = [self.create_symbol("0")]
+        self.reel_positions = []
+        reveal_event(self)
+
+    def check_fs_condition(self) -> bool:
         """Check if there are enough active scatters to trigger fs."""
-        if self.board[1][0].name == scatter_key:
+        if self.board[0][0].name == "S":
             return True
         return False
 
@@ -42,8 +66,11 @@ class Prize:
         for i, _ in enumerate(gamestate.board):
             if gamestate.gametype == "basegame" and i == len(gamestate.board) - 1:
                 num += "."
-            if gamestate.board[i][0].name != "B":
-                num += str(gamestate.board[i][0].name)
+                if gamestate.board[i][-1].name not in ["S", "B"]:
+                    num += str(gamestate.board[i][0].name)
+            else:
+                if gamestate.board[i][-1].name not in ["S", "B"]:
+                    num += str(gamestate.board[i][0].name)
 
         return float(num)
 
@@ -55,7 +82,7 @@ class Prize:
         gamestate.win_manager.update_gametype_wins(gamestate.gametype)
 
     def win_actions(self, gamestate):
-        gamestate.win_data = {"totalWin": 0.0}
+        gamestate.win_data = {}
         gamestate.win_data["totalWin"] = self.evaluate_board_win(gamestate)
         self.emit_win_events(gamestate)
         self.update_wallet_manager(gamestate, gamestate.win_data)

@@ -11,10 +11,15 @@ class GameState(GameStateOverride):
         self.repeat = True
         while self.repeat:
             self.reset_book()
-            self.draw_base_values()
+            if self.criteria == "wincap":
+                self.draw_wincap_values()
+            elif self.criteria == "0":
+                self.draw_zero_board()
+            else:
+                self.draw_base_values()
 
-            if self.criteria != "0":
-                print("her")
+            # Handle wincap - force freegame
+
             # Evaluate wins, update wallet, transmit events
             self.prize_object.win_actions(self)
 
@@ -28,16 +33,15 @@ class GameState(GameStateOverride):
 
     def run_freespin(self):
         self.reset_fs_spin()
-        pass
-        # while self.fs < self.tot_fs:
-        #     self.update_freespin()
-        #     self.draw_board()
+        while self.fs < self.tot_fs:
 
-        #     self.evaluate_lines_board()
+            # Handle wincap
+            if self.criteria != "wincap":
+                self.draw_freegame_values()
+            else:
+                self.draw_wincap_values()
 
-        #     if self.check_fs_condition():
-        #         self.update_fs_retrigger_amt()
+            self.prize_object.win_actions(self)
+            self.update_freespin()
 
-        #     self.win_manager.update_gametype_wins(self.gametype)
-
-        # self.end_freespin()
+        self.end_freespin()

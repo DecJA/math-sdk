@@ -20,7 +20,7 @@ class GameConfig(Config):
         self.game_id = "6_clockwork_96"
         self.provider_number = 6
         self.working_name = "prize game"
-        self.wincap = 10000.0
+        self.wincap = 9999
         self.win_type = "lines"
         self.rtp = 0.9600
         self.construct_paths(self.game_id)
@@ -43,11 +43,11 @@ class GameConfig(Config):
         }
 
         self.include_padding = False
-        self.special_symbols = {"blank": "B"}
+        self.special_symbols = {"blank": "B", "scatter": "S"}
 
         self.freespin_triggers = {
-            self.basegame_type: {3: 8, 4: 12, 5: 15},
-            self.freegame_type: {2: 3, 3: 5, 4: 8, 5: 12},
+            self.basegame_type: {1: 1},
+            self.freegame_type: {1: 1},
         }
         self.anticipation_triggers = {
             self.basegame_type: min(self.freespin_triggers[self.basegame_type].keys()) - 1,
@@ -61,8 +61,10 @@ class GameConfig(Config):
 
         self.padding_reels[self.basegame_type] = self.reels["BR0"]
         self.padding_reels[self.freegame_type] = self.reels["FR0"]
-
-        self.symbol_values = {"basegame": {0: 100, 1: 90, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 30, 8: 20, 9: 10}}
+        self.symbol_values = {
+            "basegame": {0: 100, 1: 90, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 30, 8: 20, 9: 10},
+            "freegame": {0: 100, 1: 90, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 30, 8: 20, 9: 10},
+        }
         # Contains all game-logic simulation conditions
         self.bet_modes = [
             BetMode(

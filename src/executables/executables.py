@@ -59,6 +59,7 @@ class Executables(Conditions, Tumble):
 
     def run_freespin_from_base(self, scatter_key: str = "scatter") -> None:
         """Trigger the freespin function and update total fs amount."""
+        self.get_special_symbols_on_board()
         self.record(
             {
                 "kind": self.count_special_symbols(scatter_key),

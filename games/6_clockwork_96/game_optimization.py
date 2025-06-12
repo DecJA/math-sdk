@@ -16,7 +16,7 @@ class OptimizationSetup:
         self.game_config.opt_params = {
             "base": {
                 "conditions": {
-                    "wincap": ConstructConditions(rtp=0.01, av_win=10000, search_conditions=10000).return_dict(),
+                    "wincap": ConstructConditions(rtp=0.01, av_win=9999, search_conditions=9999).return_dict(),
                     "0": ConstructConditions(rtp=0, av_win=0, search_conditions=0).return_dict(),
                     "freegame": ConstructConditions(
                         rtp=0.36, hr=200, search_conditions={"symbol": "scatter"}
@@ -55,7 +55,7 @@ class OptimizationSetup:
             },
             "bonus": {
                 "conditions": {
-                    "wincap": ConstructConditions(rtp=0.01, av_win=10000, search_conditions=10000).return_dict(),
+                    "wincap": ConstructConditions(rtp=0.01, av_win=9999, search_conditions=9999).return_dict(),
                     "freegame": ConstructConditions(rtp=0.95, hr="x").return_dict(),
                 },
                 "scaling": ConstructScaling(
