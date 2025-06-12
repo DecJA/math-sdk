@@ -28,7 +28,7 @@ class GameExecutables(GameCalculations):
 
     def check_fs_condition(self, scatter_key: str = "scatter") -> bool:
         """Check if there are enough active scatters to trigger fs."""
-        if self.board[1].name == scatter_key:
+        if self.board[1][0].name == scatter_key:
             return True
         return False
 
@@ -43,7 +43,7 @@ class Prize:
             if gamestate.gametype == "basegame" and i == len(gamestate.board) - 1:
                 num += "."
             if gamestate.board[i][0].name != "B":
-                num += str(gamestate.board[i].name)
+                num += str(gamestate.board[i][0].name)
 
         return float(num)
 
@@ -51,11 +51,11 @@ class Prize:
         win_info_event(gamestate)
 
     def update_wallet_manager(self, gamestate, win_data):
-        gamestate.win_manager.update_gametype_wins(gamestate.gametype)
         gamestate.win_manager.update_spinwin(win_data["totalWin"])
+        gamestate.win_manager.update_gametype_wins(gamestate.gametype)
 
     def win_actions(self, gamestate):
-        windict = {"totalWin": 0.0}
-        windict["totalWin"] = self.evaluate_board_win(gamestate)
+        gamestate.win_data = {"totalWin": 0.0}
+        gamestate.win_data["totalWin"] = self.evaluate_board_win(gamestate)
         self.emit_win_events(gamestate)
-        self.update_wallet_manager(gamestate, windict)
+        self.update_wallet_manager(gamestate, gamestate.win_data)

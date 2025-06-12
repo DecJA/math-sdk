@@ -13,7 +13,8 @@ class GameState(GameStateOverride):
             self.reset_book()
             self.draw_base_values()
 
-            reveal_event(self)
+            if self.criteria != "0":
+                print("her")
             # Evaluate wins, update wallet, transmit events
             self.prize_object.win_actions(self)
 
