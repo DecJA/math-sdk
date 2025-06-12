@@ -17,21 +17,33 @@ class GameConfig(Config):
 
     def __init__(self):
         super().__init__()
-        self.game_id = "clockwork"
-        self.provider_number = int(self.game_id.split("_", maxsplit=1)[0])
+        self.game_id = "6_clockwork_96"
+        self.provider_number = 6
         self.working_name = "prize game"
-        self.wincap = 5000.0
+        self.wincap = 10000.0
         self.win_type = "lines"
-        self.rtp = 0.9700
+        self.rtp = 0.9600
         self.construct_paths(self.game_id)
 
         # Game Dimensions
         self.num_reels = 4
         self.num_rows = [1] * self.num_reels
         # Board and Symbol Properties
+        self.paytable = {
+            (1, "0"): 0,
+            (1, "1"): 1,
+            (2, "2"): 2,
+            (3, "3"): 3,
+            (4, "4"): 4,
+            (5, "5"): 5,
+            (6, "6"): 6,
+            (7, "7"): 7,
+            (8, "8"): 8,
+            (9, "9"): 9,
+        }
 
-        self.include_padding = True
-        self.special_symbols = {}
+        self.include_padding = False
+        self.special_symbols = {"blank": "B"}
 
         self.freespin_triggers = {
             self.basegame_type: {3: 8, 4: 12, 5: 15},
@@ -49,8 +61,8 @@ class GameConfig(Config):
 
         self.padding_reels[self.basegame_type] = self.reels["BR0"]
         self.padding_reels[self.freegame_type] = self.reels["FR0"]
-        self.padding_symbol_values = {"W": {"multiplier": {2: 100, 3: 50, 4: 50, 5: 50, 10: 30, 20: 20, 50: 5}}}
 
+        self.symbol_values = {"basegame": {0: 100, 1: 90, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 30, 8: 20, 9: 10}}
         # Contains all game-logic simulation conditions
         self.bet_modes = [
             BetMode(

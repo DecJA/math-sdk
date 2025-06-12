@@ -1,5 +1,6 @@
 from game_executables import GameExecutables
 from src.calculations.statistics import get_random_outcome
+from game_executables import Prize
 
 
 class GameStateOverride(GameExecutables):
@@ -8,8 +9,12 @@ class GameStateOverride(GameExecutables):
     e.g: A specific game may have custom book properties to reset
     """
 
+    def setup_prize_obj(self):
+        self.prize_object = Prize()
+
     def reset_book(self):
         super().reset_book()
+        self.setup_prize_obj()
 
     def assign_special_sym_function(self):
         self.special_symbol_functions = {

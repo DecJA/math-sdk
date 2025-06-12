@@ -1,5 +1,6 @@
 from game_override import GameStateOverride
 from src.calculations.lines import Lines
+from src.events.events import reveal_event
 
 
 class GameState(GameStateOverride):
@@ -10,12 +11,12 @@ class GameState(GameStateOverride):
         self.repeat = True
         while self.repeat:
             self.reset_book()
-            self.draw_board()
+            self.draw_base_values()
 
+            reveal_event(self)
             # Evaluate wins, update wallet, transmit events
-            self.evaluate_lines_board()
+            self.prize_object.win_actions(self)
 
-            self.win_manager.update_gametype_wins(self.gametype)
             if self.check_fs_condition():
                 self.run_freespin_from_base()
 
@@ -26,15 +27,16 @@ class GameState(GameStateOverride):
 
     def run_freespin(self):
         self.reset_fs_spin()
-        while self.fs < self.tot_fs:
-            self.update_freespin()
-            self.draw_board()
+        pass
+        # while self.fs < self.tot_fs:
+        #     self.update_freespin()
+        #     self.draw_board()
 
-            self.evaluate_lines_board()
+        #     self.evaluate_lines_board()
 
-            if self.check_fs_condition():
-                self.update_fs_retrigger_amt()
+        #     if self.check_fs_condition():
+        #         self.update_fs_retrigger_amt()
 
-            self.win_manager.update_gametype_wins(self.gametype)
+        #     self.win_manager.update_gametype_wins(self.gametype)
 
-        self.end_freespin()
+        # self.end_freespin()
