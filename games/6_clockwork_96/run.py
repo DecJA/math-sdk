@@ -14,7 +14,7 @@ if __name__ == "__main__":
     num_threads = 1
     rust_threads = 20
     batching_size = 5000
-    compression = True
+    compression = False
     profiling = False
 
     num_sim_args = {
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     }
 
     run_conditions = {
-        "run_sims": True,
+        "run_sims": False,
         "run_optimization": False,
         "run_analysis": False,
         "run_format_checks": False,
