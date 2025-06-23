@@ -1,6 +1,7 @@
 from copy import copy
 from abc import ABC, abstractmethod
 from warnings import warn
+from copy import deepcopy
 import random
 
 # from src.config.config import BetMode
@@ -179,7 +180,7 @@ class GeneralGameState(ABC):
         basewin = round(min(self.win_manager.basegame_wins, self.config.wincap), 2)
         freewin = round(min(self.win_manager.freegame_wins, self.config.wincap), 2)
 
-        self.final_win = final
+        self.final_win = deepcopy(final)
         self.book.payout_multiplier = self.final_win
         self.book.basegame_wins = basewin
         self.book.freegame_wins = freewin
