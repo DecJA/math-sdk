@@ -1,0 +1,34 @@
+"""Handles the state and output for a single simulation round"""
+
+from game_override import GameStateOverride
+from src.calculations.scatter import Scatter
+from src.events.events import *
+
+
+class GameState(GameStateOverride):
+    """Handle all game-logic and event updates for a given simulation number."""
+
+    def run_spin(self, sim):
+        self.reset_seed(sim)
+        self.repeat = True
+        while self.repeat:
+            self.reset_book()
+            self.draw_animals()
+            self.win_data = self.get_animal_wins()
+            self.win_manager.update_spinwin(self.win_data["totalWin"])
+            if self.win_data["totalWin"] > 0:
+                win_info_event(self)
+                self.evaluate_wincap()
+            self.win_manager.update_gametype_wins(self.gametype)
+            set_win_event(self)
+            self.evaluate_finalwin()
+
+        self.imprint_wins()
+
+    def run_freespin(self):
+        self.reset_fs_spin()
+        while self.fs < self.tot_fs:
+            self.update_freespin()
+            pass
+
+        self.end_freespin()
