@@ -13,9 +13,9 @@ class GameConfig(Config):
         self.game_id = "animal_game"
         self.provider_numer = 0
         self.working_name = "animal_game"
-        self.wincap = 100
+        self.wincap = 300
         self.win_type = "other"
-        self.rtp = 0.99
+        self.rtp = 0.96
         self.construct_paths()
 
         # Game Dimensions
