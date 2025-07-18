@@ -2,6 +2,7 @@ from src.executables.executables import Executables
 from src.calculations.statistics import get_random_outcome
 from game_events import reveal_animal_event
 from collections import defaultdict
+import random
 
 
 class GameCalculations(Executables):
@@ -17,37 +18,67 @@ class GameCalculations(Executables):
         reveal_animal_event(self)
 
     def draw_max_board(self):
-        for reel, _ in enumerate(self.board):
-            for row, _ in enumerate(self.board[reel]):
-                self.board[reel][row] = self.create_symbol("T1")
+        place_count = 0
+        av_pos = self.get_board_pos(3, 3)
+        while place_count < 9:
+            spot = random.choice(av_pos)
+            av_pos.remove(spot)
+            if place_count < 3:
+                self.board[spot[0]][spot[1]] = self.create_symbol("P")
+                self.board[spot[0]][spot[1]].prize = self.config.wincap
+            else:
+                self.board[spot[0]][spot[1]] = self.create_symbol("P")
+                print(self.board[spot[0]][spot[1]].prize)
+
+            place_count += 1
 
     def draw_zero_board(self):
         sym_count = {}
-        for tup in self.config.paytable:
-            sym_count[tup[1]] = 0
+        for v, _ in self.config.prize_dist.items():
+            sym_count[v] = 0
 
         for reel, _ in enumerate(self.board):
             for row, _ in enumerate(self.board[reel]):
-                sym = get_random_outcome(self.config.sym_dist)
-                while sym_count[sym] >= 2:
-                    sym = get_random_outcome(self.config.sym_dist)
-                self.board[reel][row] = self.create_symbol(sym)
-                sym_count[sym] += 1
+                s = self.create_symbol("P")
+                while sym_count[s.prize] >= 2:
+                    s = self.create_symbol("P")
+                self.board[reel][row] = s
+                sym_count[s.prize] += 1
+
+    def get_board_pos(self, num_reels, num_rows):
+        pos = []
+        for i in range(num_reels):
+            for j in range(num_rows):
+                pos.append((i, j))
+        return pos
 
     def draw_base_board(self):
         sym_count = {}
-        for tup in self.config.paytable:
-            sym_count[tup[1]] = 0
+        for v, _ in self.config.prize_dist.items():
+            sym_count[v] = 0
 
-        while all([c < 3 for _, c in sym_count.items()]):
-            self.board = [[[] for _ in range(len(self.board[0]))] for _ in range(len(self.board))]
-            for reel, _ in enumerate(self.board):
-                for row, _ in enumerate(self.board[reel]):
-                    sym = get_random_outcome(self.config.sym_dist)
-                    while sym_count[sym] >= 3:
-                        sym = get_random_outcome(self.config.sym_dist)
-                    self.board[reel][row] = self.create_symbol(sym)
-                    sym_count[sym] += 1
+        av_pos = self.get_board_pos(3, 3)
+        place_count = 0
+        det_val = get_random_outcome(self.config.prize_dist)
+        while det_val == 0:
+            det_val = get_random_outcome(self.config.prize_dist)
+        while place_count < 9:
+            if place_count < 3:
+                spot = random.choice(av_pos)
+                av_pos.remove(spot)
+                self.board[spot[0]][spot[1]] = self.create_symbol("P")
+                self.board[spot[0]][spot[1]].prize = det_val
+                sym_count[self.board[spot[0]][spot[1]].prize] += 1
+            else:
+                spot = random.choice(av_pos)
+                s = self.create_symbol("P")
+                while sym_count[s.prize] >= 2:
+                    s = self.create_symbol("P")
+                self.board[spot[0]][spot[1]] = s
+                sym_count[self.board[spot[0]][spot[1]].prize] += 1
+                av_pos.remove(spot)
+
+            place_count += 1
 
     def get_animal_wins(self):
         return_data = {
@@ -58,16 +89,12 @@ class GameCalculations(Executables):
         symbols_on_board = defaultdict(list)
         for reel_idx, reel in enumerate(self.board):
             for row_idx, symbol in enumerate(reel):
-                symbols_on_board[symbol.name].append({"reel": reel_idx, "row": row_idx})
-        for sym in symbols_on_board:
-            win_size = len(symbols_on_board[sym])
-            if (win_size, sym) in self.config.paytable:
-                symbol_win_data = {
-                    "symbol": sym,
-                    "win": self.config.paytable[(win_size, sym)],
-                    "positions": symbols_on_board[sym],
-                }
-                total_win += symbol_win_data["win"]
+                symbols_on_board[symbol.prize].append({"reel": reel_idx, "row": row_idx})
+        for sym_vals in symbols_on_board:
+            win_size = len(symbols_on_board[sym_vals])
+            if win_size == 3:
+                symbol_win_data = {"symbol": "P", "win": float(sym_vals), "positions": symbols_on_board[sym_vals]}
+                total_win += float(sym_vals)
                 return_data["wins"].append(symbol_win_data)
         return_data["totalWin"] = total_win
         return return_data
