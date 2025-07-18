@@ -24,34 +24,26 @@ class GameConfig(Config):
         # Board and Symbol Properties
         self.paytable = {(10, "P"): 0}
         self.prize_dist = {
-            0.0: 1000,
-            0.2: 700,
-            0.5: 500,
+            0.2: 900,
+            0.5: 830,
+            0.7: 500,
             1.0: 200,
-            2.0: 150,
-            5.0: 100,
+            2.0: 100,
+            5.0: 50,
             10: 20,
             20: 10,
-            50: 5,
-            100: 4,
-            500: 3,
-            1000: 2,
-            5000: 1,
+            50: 10,
+            100: 5,
+            500: 4,
+            1000: 3,
+            5000: 2,
         }
-
-        self.sym_dist = {"T1": 2, "T2": 100, "T3": 200, "L1": 400, "L2": 600, "L3": 700}
 
         self.include_padding = False
         self.special_symbols = {"prize": ["P"], "scatter": [], "multiplier": []}
 
         self.freespin_triggers = {self.basegame_type: {}, self.freegame_type: {}}
         self.anticipation_triggers = {self.basegame_type: 0, self.freegame_type: 0}
-        # Reels
-        # reels = {"BR0": "BR0.csv", "FR0": "FR0.csv"}
-        # self.reels = {}
-        # for r, f in reels.items():
-        #     self.reels[r] = self.read_reels_csv(str.join("/", [self.reels_path, f]))
-
         self.bet_modes = [
             BetMode(
                 name="base",

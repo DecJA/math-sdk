@@ -3,6 +3,7 @@
 from game_override import GameStateOverride
 from src.calculations.scatter import Scatter
 from src.events.events import *
+from game_events import reveal_animal_event
 
 
 class GameState(GameStateOverride):
@@ -17,7 +18,10 @@ class GameState(GameStateOverride):
             self.win_data = self.get_animal_wins()
             self.win_manager.update_spinwin(self.win_data["totalWin"])
             if self.win_data["totalWin"] > 0:
-                win_info_event(self)
+                self.winning_spin = True
+            reveal_animal_event(self)
+            if self.win_data["totalWin"] > 0:
+                win_info_event(self, False)
                 self.evaluate_wincap()
             self.win_manager.update_gametype_wins(self.gametype)
             set_win_event(self)

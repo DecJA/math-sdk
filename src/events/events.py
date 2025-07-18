@@ -12,8 +12,6 @@ def json_ready_sym(symbol: object, special_attributes: list = None):
     for key, val in attrs.items():
         if key in special_attributes and symbol.get_attribute(key) is not False:
             print_sym[key] = val
-    if "prize" not in print_sym.keys():
-        print("error")
     return print_sym
 
 
@@ -166,11 +164,32 @@ def win_info_event(gamestate, include_padding_index=True):
             if "overlay" in win_data_copy["wins"][idx]["meta"] and include_padding_index:
                 win_data_copy["wins"][idx]["meta"]["overlay"]["row"] += 1
 
+    mapping = {
+        str({"reel": 0, "row": 0}): 0,
+        str({"reel": 0, "row": 1}): 1,
+        str({"reel": 0, "row": 2}): 2,
+        str({"reel": 1, "row": 0}): 3,
+        str({"reel": 1, "row": 1}): 4,
+        str({"reel": 1, "row": 2}): 5,
+        str({"reel": 2, "row": 0}): 6,
+        str({"reel": 2, "row": 1}): 7,
+        str({"reel": 2, "row": 2}): 8,
+    }
+    new_wins = {}
+    assert len(win_data_copy["wins"]) <= 1
+    for idx in range(len(win_data_copy["wins"])):
+        pos_flat = []
+        for _, p in enumerate(win_data_copy["wins"][idx]["positions"]):
+            pos_flat.append(mapping[str(p)])
+        win_data_copy["wins"][idx]["positions"] = pos_flat
+        new_wins["symbol"] = "P"
+        new_wins["win"] = win_data_copy["wins"][0]["win"]
+        new_wins["positions"] = pos_flat
     event = {
         "index": len(gamestate.book.events),
         "type": EventConstants.WIN_DATA.value,
         "totalWin": int(round(min(gamestate.win_data["totalWin"], gamestate.config.wincap) * 100, 0)),
-        "wins": win_data_copy["wins"],
+        "wins": new_wins,
     }
     gamestate.book.add_event(event)
 

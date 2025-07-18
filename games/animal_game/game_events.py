@@ -8,7 +8,10 @@ def reveal_animal_event(gamestate):
     for reel, _ in enumerate(gamestate.board):
         board_client.append([])
         for row in range(len(gamestate.board[reel])):
-            board_client[reel].append(json_ready_sym(gamestate.board[reel][row], special_attributes))
+            s = json_ready_sym(gamestate.board[reel][row], special_attributes)
+            if "prize" in s:
+                s["prize"] = int(s["prize"] * 100)
+            board_client[reel].append(s)
 
     if gamestate.config.include_padding:
         for reel, _ in enumerate(board_client):
@@ -17,11 +20,14 @@ def reveal_animal_event(gamestate):
             ]
             board_client[reel].append(json_ready_sym(gamestate.bottom_symbols[reel], special_attributes))
 
+    flat_board = []
+    for idx, _ in enumerate(board_client):
+        flat_board.extend([i for i in board_client[idx]])
     event = {
         "index": len(gamestate.book.events),
         "type": EventConstants.REVEAL.value,
-        "board": board_client,
+        "board": flat_board,
         "gameType": gamestate.gametype,
-        "anticipation": gamestate.anticipation,
+        "winningBoard": gamestate.winning_spin,
     }
     gamestate.book.add_event(event)

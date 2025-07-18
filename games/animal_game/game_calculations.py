@@ -1,6 +1,5 @@
 from src.executables.executables import Executables
 from src.calculations.statistics import get_random_outcome
-from game_events import reveal_animal_event
 from collections import defaultdict
 import random
 
@@ -15,9 +14,12 @@ class GameCalculations(Executables):
                 self.draw_zero_board()
             case "basegame":
                 self.draw_base_board()
-        reveal_animal_event(self)
+        # reveal_animal_event(self)
 
     def draw_max_board(self):
+        sym_count = {}
+        for v, _ in self.config.prize_dist.items():
+            sym_count[v] = 0
         place_count = 0
         av_pos = self.get_board_pos(3, 3)
         while place_count < 9:
@@ -26,9 +28,14 @@ class GameCalculations(Executables):
             if place_count < 3:
                 self.board[spot[0]][spot[1]] = self.create_symbol("P")
                 self.board[spot[0]][spot[1]].prize = self.config.wincap
+                sym_count[self.config.wincap] += 1
             else:
-                self.board[spot[0]][spot[1]] = self.create_symbol("P")
-                print(self.board[spot[0]][spot[1]].prize)
+                s = self.create_symbol("P")
+                while s.prize >= self.config.wincap or sym_count[s.prize] >= 2:
+                    s = self.create_symbol("P")
+                self.board[spot[0]][spot[1]] = s
+                sym_count[s.prize] += 1
+                # print(self.board[spot[0]][spot[1]].prize)
 
             place_count += 1
 

@@ -11,6 +11,7 @@ class GameStateOverride(GameExecutables):
     def reset_book(self):
         """Reset game specific properties"""
         super().reset_book()
+        self.winning_spin = False
 
     def assign_special_sym_function(self):
         self.special_symbol_functions = {"P": [self.assign_prize_value]}

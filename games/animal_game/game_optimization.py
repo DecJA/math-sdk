@@ -16,7 +16,7 @@ class OptimizationSetup:
         self.game_config.opt_params = {
             "base": {
                 "conditions": {
-                    "wincap": ConstructConditions(rtp=0.01, av_win=300, search_conditions=300).return_dict(),
+                    "wincap": ConstructConditions(rtp=0.01, av_win=5000, search_conditions=5000).return_dict(),
                     "0": ConstructConditions(rtp=0, av_win=0, search_conditions=0).return_dict(),
                     "basegame": ConstructConditions(hr=3.5, rtp=0.95).return_dict(),
                 },
