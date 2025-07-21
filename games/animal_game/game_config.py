@@ -38,6 +38,20 @@ class GameConfig(Config):
             1000: 3,
             5000: 2,
         }
+        self.bonus_dist = {
+            5: 300,
+            10: 350,
+            15: 400,
+            25: 500,
+            50: 550,
+            75: 400,
+            100: 300,
+            200: 200,
+            500: 120,
+            1000: 10,
+            2000: 3,
+            5000: 5,
+        }
 
         self.include_padding = False
         self.special_symbols = {"prize": ["P"], "scatter": [], "multiplier": []}
@@ -61,6 +75,7 @@ class GameConfig(Config):
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
                             "force_wincap": True,
                             "force_freegame": False,
+                            "prize_dist": self.prize_dist,
                         },
                     ),
                     Distribution(
@@ -70,6 +85,7 @@ class GameConfig(Config):
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
                             "force_wincap": False,
                             "force_freegame": False,
+                            "prize_dist": self.prize_dist,
                         },
                     ),
                     Distribution(
@@ -79,6 +95,38 @@ class GameConfig(Config):
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
                             "force_wincap": False,
                             "force_freegame": False,
+                            "prize_dist": self.prize_dist,
+                        },
+                    ),
+                ],
+            ),
+            BetMode(
+                name="bonus",
+                cost=100.0,
+                rtp=self.rtp,
+                max_win=self.wincap,
+                auto_close_disabled=False,
+                is_feature=True,
+                is_buybonus=False,
+                distributions=[
+                    Distribution(
+                        criteria="wincap",
+                        quota=0.001,
+                        conditions={
+                            "reel_weights": {self.basegame_type: {"BR0": 1}},
+                            "force_wincap": True,
+                            "force_freegame": False,
+                            "prize_dist": self.bonus_dist,
+                        },
+                    ),
+                    Distribution(
+                        criteria="basegame",
+                        quota=0.6,
+                        conditions={
+                            "reel_weights": {self.basegame_type: {"BR0": 1}},
+                            "force_wincap": False,
+                            "force_freegame": False,
+                            "prize_dist": self.bonus_dist,
                         },
                     ),
                 ],

@@ -16,9 +16,9 @@ class OptimizationSetup:
         self.game_config.opt_params = {
             "base": {
                 "conditions": {
-                    "wincap": ConstructConditions(rtp=0.01, av_win=5000, search_conditions=5000).return_dict(),
+                    "wincap": ConstructConditions(rtp=0.05, av_win=5000, search_conditions=5000).return_dict(),
                     "0": ConstructConditions(rtp=0, av_win=0, search_conditions=0).return_dict(),
-                    "basegame": ConstructConditions(hr=3.5, rtp=0.95).return_dict(),
+                    "basegame": ConstructConditions(hr=3.5, rtp=0.955).return_dict(),
                 },
                 "scaling": ConstructScaling(
                     [
@@ -77,6 +77,24 @@ class OptimizationSetup:
                     test_weights=[0.3, 0.4, 0.3],
                     score_type="rtp",
                 ).return_dict(),
-            }
+            },
+            "bonus": {
+                "conditions": {
+                    "wincap": ConstructConditions(rtp=0.05, av_win=5000, search_conditions=5000).return_dict(),
+                    "basegame": ConstructConditions(hr="x", rtp=0.955).return_dict(),
+                },
+                "scaling": ConstructScaling([]).return_dict(),
+                "parameters": ConstructParameters(
+                    num_show=5000,
+                    num_per_fence=10000,
+                    min_m2m=4,
+                    max_m2m=8,
+                    pmb_rtp=1.0,
+                    sim_trials=5000,
+                    test_spins=[50, 100, 200],
+                    test_weights=[0.3, 0.4, 0.3],
+                    score_type="rtp",
+                ).return_dict(),
+            },
         }
         verify_optimization_input(self.game_config, self.game_config.opt_params)

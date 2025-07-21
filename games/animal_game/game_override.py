@@ -17,7 +17,7 @@ class GameStateOverride(GameExecutables):
         self.special_symbol_functions = {"P": [self.assign_prize_value]}
 
     def assign_prize_value(self, symbol):
-        prize_value = get_random_outcome(self.config.prize_dist)
+        prize_value = get_random_outcome(self.get_current_distribution_conditions()["prize_dist"])
         symbol.assign_attribute({"prize": prize_value})
 
     def check_game_repeat(self):

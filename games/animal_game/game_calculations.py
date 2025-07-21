@@ -18,7 +18,7 @@ class GameCalculations(Executables):
 
     def draw_max_board(self):
         sym_count = {}
-        for v, _ in self.config.prize_dist.items():
+        for v, _ in self.get_current_distribution_conditions()["prize_dist"].items():
             sym_count[v] = 0
         place_count = 0
         av_pos = self.get_board_pos(3, 3)
@@ -41,7 +41,7 @@ class GameCalculations(Executables):
 
     def draw_zero_board(self):
         sym_count = {}
-        for v, _ in self.config.prize_dist.items():
+        for v, _ in self.get_current_distribution_conditions()["prize_dist"].items():
             sym_count[v] = 0
 
         for reel, _ in enumerate(self.board):
@@ -61,14 +61,14 @@ class GameCalculations(Executables):
 
     def draw_base_board(self):
         sym_count = {}
-        for v, _ in self.config.prize_dist.items():
+        for v, _ in self.get_current_distribution_conditions()["prize_dist"].items():
             sym_count[v] = 0
 
         av_pos = self.get_board_pos(3, 3)
         place_count = 0
-        det_val = get_random_outcome(self.config.prize_dist)
+        det_val = get_random_outcome(self.get_current_distribution_conditions()["prize_dist"])
         while det_val == 0:
-            det_val = get_random_outcome(self.config.prize_dist)
+            det_val = get_random_outcome(self.get_current_distribution_conditions()["prize_dist"])
         while place_count < 9:
             if place_count < 3:
                 spot = random.choice(av_pos)

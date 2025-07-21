@@ -20,15 +20,16 @@ if __name__ == "__main__":
 
     num_sim_args = {
         "base": int(1e5),
+        "bonus": int(1e5),
     }
 
     run_conditions = {
-        "run_sims": False,
+        "run_sims": True,
         "run_optimization": True,
         "run_analysis": True,
         "upload_data": False,
     }
-    target_modes = ["base"]
+    target_modes = ["base", "bonus"]
 
     config = GameConfig()
     gamestate = GameState(config)
@@ -46,8 +47,6 @@ if __name__ == "__main__":
             compression,
             profiling,
         )
-    generate_configs(gamestate)
-
     generate_configs(gamestate)
 
     if run_conditions["run_optimization"]:
