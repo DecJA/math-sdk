@@ -24,14 +24,44 @@ class OptimizationSetup:
                     [
                         {
                             "criteria": "basegame",
-                            "scale_factor": 1.2,
-                            "win_range": (1, 2),
+                            "scale_factor": 2.5,
+                            "win_range": (2, 3),
+                            "probability": 1.0,
+                        },
+                        {
+                            "criteria": "basegame",
+                            "scale_factor": 2.0,
+                            "win_range": (5, 10),
                             "probability": 1.0,
                         },
                         {
                             "criteria": "basegame",
                             "scale_factor": 1.5,
                             "win_range": (10, 20),
+                            "probability": 1.0,
+                        },
+                        {
+                            "criteria": "basegame",
+                            "scale_factor": 1.2,
+                            "win_range": (20, 50),
+                            "probability": 0.75,
+                        },
+                        {
+                            "criteria": "basegame",
+                            "scale_factor": 0.8,
+                            "win_range": (50, 100),
+                            "probability": 1.0,
+                        },
+                        {
+                            "criteria": "basegame",
+                            "scale_factor": 1.7,
+                            "win_range": (100, 200),
+                            "probability": 1.0,
+                        },
+                        {
+                            "criteria": "basegame",
+                            "scale_factor": 2.0,
+                            "win_range": (500, 1000),
                             "probability": 1.0,
                         },
                     ]
