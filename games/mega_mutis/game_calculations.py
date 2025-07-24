@@ -52,6 +52,13 @@ class GameCalculations(Executables):
                 self.board[reel][row] = s
                 sym_count[s.prize] += 1
 
+        dummy_vals = []
+        for s, c in sym_count.items():
+            if s in list(self.config.padding_dist.keys()):
+                dummy_vals
+        if random.random() > 0.4:
+            dummy_vars = get_random_outcome(self.config.num_dummy_placement)
+
     def get_board_pos(self, num_reels, num_rows):
         pos = []
         for i in range(num_reels):

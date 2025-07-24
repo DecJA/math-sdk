@@ -10,9 +10,9 @@ class GameConfig(Config):
 
     def __init__(self):
         super().__init__()
-        self.game_id = "animal_game"
+        self.game_id = "mega_mutis"
         self.provider_numer = 0
-        self.working_name = "animal_game"
+        self.working_name = "mega_mutis"
         self.wincap = 5000
         self.win_type = "other"
         self.rtp = 0.96
@@ -51,6 +51,18 @@ class GameConfig(Config):
             1000: 10,
             2000: 3,
             5000: 5,
+        }
+
+        self.num_dummy_placement = {1: 10, 2: 10}
+        self.padding_dist = {
+            50: 500,
+            75: 400,
+            100: 300,
+            200: 200,
+            500: 100,
+            1000: 50,
+            2000: 20,
+            5000: 15,
         }
 
         self.include_padding = False

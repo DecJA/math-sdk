@@ -14,8 +14,8 @@ class GameState(GameStateOverride):
             self.reset_book()
 
             win_data = {"totalWin": 0}
-            if sim == 9:
-                win_data["totalWin"] = 10
+            if sim % 2 == 0:
+                win_data["totalWin"] = 2
             self.win_manager.update_spinwin(win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
 
