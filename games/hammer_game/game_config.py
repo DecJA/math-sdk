@@ -23,6 +23,7 @@ class GameConfig(Config):
         self.num_rows = [3] * self.num_reels  # Optionally include variable number of rows per reel
         # Board and Symbol Properties
         self.paytable = {(10, "P"): 0}
+        self.prize_range = {"base": [0, 5000]}
         self.prize_dist = {
             0.2: 900,
             0.5: 830,
@@ -34,13 +35,9 @@ class GameConfig(Config):
             20: 10,
             50: 10,
             100: 5,
-            200: 3,
-            500: 2,
-            1000: 2,
-            2000: 1,
-            3000: 1,
-            4000: 1,
-            5000: 1,
+            500: 4,
+            1000: 3,
+            5000: 2,
         }
         self.bonus_dist = {
             5: 300,
@@ -54,29 +51,11 @@ class GameConfig(Config):
             500: 120,
             1000: 10,
             2000: 3,
-            3000: 2,
-            4000: 2,
             5000: 5,
         }
-        self.bonus2_dist = {
-            10: 15,
-            15: 40,
-            25: 50,
-            50: 100,
-            75: 200,
-            100: 500,
-            200: 500,
-            500: 620,
-            1000: 700,
-            2000: 150,
-            3000: 100,
-            4000: 50,
-            5000: 10,
-        }
 
-        self.num_dummy_placement = {1: 50, 2: 10}
+        self.num_dummy_placement = {1: 30, 2: 10}
         self.padding_dist = {
-            20: 800,
             50: 500,
             75: 400,
             100: 300,
@@ -84,8 +63,6 @@ class GameConfig(Config):
             500: 100,
             1000: 50,
             2000: 20,
-            3000: 10,
-            4000: 10,
             5000: 15,
         }
 
@@ -152,7 +129,7 @@ class GameConfig(Config):
                             "reel_weights": {self.basegame_type: {"BR0": 1}},
                             "force_wincap": True,
                             "force_freegame": False,
-                            "prize_dist": self.bonus2_dist,
+                            "prize_dist": self.bonus_dist,
                         },
                     ),
                     Distribution(
@@ -167,45 +144,4 @@ class GameConfig(Config):
                     ),
                 ],
             ),
-            # BetMode(
-            #     name="bonus2",
-            #     cost=100.0,
-            #     rtp=self.rtp,
-            #     max_win=self.wincap,
-            #     auto_close_disabled=False,
-            #     is_feature=True,
-            #     is_buybonus=False,
-            #     distributions=[
-            #         Distribution(
-            #             criteria="wincap",
-            #             quota=0.001,
-            #             conditions={
-            #                 "reel_weights": {self.basegame_type: {"BR0": 1}},
-            #                 "force_wincap": True,
-            #                 "force_freegame": False,
-            #                 "prize_dist": self.bonus2_dist,
-            #             },
-            #         ),
-            #         Distribution(
-            #             criteria="0",
-            #             quota=0.4,
-            #             conditions={
-            #                 "reel_weights": {self.basegame_type: {"BR0": 1}},
-            #                 "force_wincap": False,
-            #                 "force_freegame": False,
-            #                 "prize_dist": self.bonus2_dist,
-            #             },
-            #         ),
-            #         Distribution(
-            #             criteria="basegame",
-            #             quota=0.6,
-            #             conditions={
-            #                 "reel_weights": {self.basegame_type: {"BR0": 1}},
-            #                 "force_wincap": False,
-            #                 "force_freegame": False,
-            #                 "prize_dist": self.bonus2_dist,
-            #             },
-            #         ),
-            #     ],
-            # ),
         ]

@@ -22,7 +22,7 @@ class GameState(GameStateOverride):
                 for idy, _ in enumerate(self.board[idx]):
                     totlVal += self.board[idx][idy].prize
 
-            if totlVal < 20:
+            if totlVal < 50:
                 print("error")
             if self.win_data["totalWin"] > 0:
                 self.winning_spin = True
