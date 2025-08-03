@@ -36,6 +36,24 @@ class GameState(GameStateOverride):
             set_win_event(self)
             self.evaluate_finalwin()
 
+        c = self.get_board_counts()
+        match self.criteria:
+            case "0":
+                if max(list(c.values())) > 2:
+                    raise RuntimeError("wins in 0")
+                if self.win_manager.running_bet_win > 0:
+                    raise RuntimeError
+            case "basegame":
+                if self.win_manager.running_bet_win == 0:
+                    raise RuntimeError
+                if max(list(c.values())) < 3:
+                    raise RuntimeError
+            case "wincap":
+                if round(self.win_manager.running_bet_win, 0) != round(self.config.wincap, 0):
+                    raise RuntimeError
+                if not (self.wincap_triggered):
+                    raise RuntimeError
+
         self.imprint_wins()
 
     def run_freespin(self):
@@ -45,3 +63,15 @@ class GameState(GameStateOverride):
             pass
 
         self.end_freespin()
+
+    def get_board_counts(self):
+        counter = {}
+        for idx, _ in enumerate(self.board):
+            for idy, _ in enumerate(self.board[idx]):
+                p = self.board[idx][idy].prize
+                try:
+                    counter[p] += 1
+                except:
+                    counter[p] = 1
+
+        return counter

@@ -1,36 +1,37 @@
-"""Main file for generating results for sample lines-pay game."""
+"""Main file for generating results for sample ways-pay game."""
 
 from gamestate import GameState
 from game_config import GameConfig
-from optimization_program.run_script import OptimizationExecution
 from game_optimization import OptimizationSetup
+from optimization_program.run_script import OptimizationExecution
 from utils.game_analytics.run_analysis import create_stat_sheet
 from utils.rgs_verification import execute_all_tests
 from src.state.run_sims import create_books
 from src.write_data.write_configs import generate_configs
 
-
 if __name__ == "__main__":
 
-    num_threads = 1
+    num_threads = 10
     rust_threads = 20
     batching_size = 50000
     compression = True
     profiling = False
 
     num_sim_args = {
-        "base": int(1e5),
-        "bonus": int(1e5),
-        # "bonus2": int(1e5),
+        "base": int(1e4),
+        "bonus": int(1e4),
     }
 
-    run_conditions = {"run_sims": True, "run_optimization": False, "run_analysis": False, "upload_data": False}
-    # target_modes = ["base", "bonus1", "bonus2"]
-    target_modes = ["base"]
+    run_conditions = {
+        "run_sims": True,
+        "run_optimization": True,
+        "run_analysis": True,
+        "run_format_checks": True,
+    }
+    target_modes = ["base", "bonus"]
 
     config = GameConfig()
     gamestate = GameState(config)
-
     if run_conditions["run_optimization"] or run_conditions["run_analysis"]:
         optimization_setup_class = OptimizationSetup(config)
 
@@ -44,6 +45,7 @@ if __name__ == "__main__":
             compression,
             profiling,
         )
+
     generate_configs(gamestate)
 
     if run_conditions["run_optimization"]:
@@ -53,3 +55,6 @@ if __name__ == "__main__":
     if run_conditions["run_analysis"]:
         custom_keys = [{"symbol": "scatter"}]
         create_stat_sheet(gamestate, custom_keys=custom_keys)
+
+    if run_conditions["run_format_checks"]:
+        execute_all_tests(config)
