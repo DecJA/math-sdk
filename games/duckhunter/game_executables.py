@@ -1,6 +1,4 @@
-"""
-
-"""
+""" """
 
 from copy import copy
 
@@ -64,8 +62,14 @@ class GameExecutables(GameCalculations):
         self.fs += 1
         update_freespin_event(self)
         # This game does not reset the global multiplier on each spin
-        self.global_multiplier = 1
-        update_global_mult_event(self)
+        # self.global_multiplier = 1
+        # update_global_mult_event(self)
         self.win_manager.reset_spin_win()
-        self.tumblewin_mult = 0
         self.win_data = {}
+
+    def check_fs_condition(self, scatter_key: str = "scatter") -> bool:
+        """Check if there are enough active scatters to trigger fs."""
+        for idx, _ in enumerate(self.winning_birds_on_screen):
+            if self.winning_birds_on_screen[idx].name == self.config.special_symbols[scatter_key][0]:
+                return True
+        return False

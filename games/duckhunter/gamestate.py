@@ -1,5 +1,6 @@
 from game_override import GameStateOverride
 from src.calculations.scatter import Scatter
+from game_events import reveal_bird_event, bird_win_info_event
 
 
 class GameState(GameStateOverride):
@@ -12,12 +13,13 @@ class GameState(GameStateOverride):
             self.reset_book()
 
             self.get_display_birds()
-            # todo: transmit reveal event
             self.assign_default_bird_properties()
+            self.assign_winning_prizes()
 
             self.win_data = self.get_winning_birds()
-
-            # todo: transmit win info
+            reveal_bird_event(self)
+            self.evaluate_wincap()
+            bird_win_info_event(self)
             self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
 
@@ -30,24 +32,23 @@ class GameState(GameStateOverride):
         self.imprint_wins()
 
     def run_freespin(self):
+        self.triggered_freegame = True
         self.reset_fs_spin()
         while self.fs < self.tot_fs:
             # Resets global multiplier at each spin
             self.update_freespin()
-            self.draw_board()
 
-            self.get_scatterpays_update_wins()
-            self.emit_tumble_win_events()  # Transmit win information
+            self.get_display_birds()
+            self.assign_default_bird_properties()
+            self.assign_winning_prizes()
 
-            while self.win_data["totalWin"] > 0 and not (self.wincap_triggered):
-                self.tumble_game_board()
-                self.update_global_mult()  # Special mechanic - increase multiplier with every tumble
-                self.get_scatterpays_update_wins()
-
-            self.set_end_tumble_event()
+            self.win_data = self.get_winning_birds()
+            reveal_bird_event(self)
+            self.evaluate_wincap()
+            bird_win_info_event(self)
+            self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
 
-            if self.check_fs_condition():
-                self.update_fs_retrigger_amt()
+            # No retriggers implented
 
         self.end_freespin()

@@ -18,8 +18,8 @@ class GameConfig(Config):
     def __init__(self):
         os.chdir(PROJECT_PATH)
         super().__init__()
-        self.game_id = "0_0_scatter"
-        self.game_name = "sample_scatter"
+        self.game_id = "duckhunter"
+        self.game_name = "duckhunter"
         self.provider_numer = 0
         self.working_name = "Sample scatter pay (pay anywhere)"
         self.wincap = 5000.0
@@ -32,11 +32,11 @@ class GameConfig(Config):
         self.num_rows = [1] * self.num_reels  # Optionally include variable number of rows per reel
         # Board and Symbol Properties
         pay_range = {
-            "B1": (0, 1.0),
-            "B2": (1.0, 10.0),
+            "B1": (1.0, 5.0),
+            "B2": (5.0, 10.0),
             "B3": (10.0, 50.0),
             "B4": (50.0, 500.0),
-            "B5": (500.0, 1000.0),
+            "RD": (5000, 5000),
         }
 
         self.paytable = pay_range
@@ -63,24 +63,27 @@ class GameConfig(Config):
         }
         self.bird_selection = {
             self.basegame_type: {
-                "B1": 1000,
+                "B1": 2000,
                 "B2": 500,
                 "B3": 200,
                 "B4": 50,
-                "B5": 20,
                 "RD": 5,
+                "BB": 100,
             },
             self.freegame_type: {
                 "B2": 500,
                 "B3": 200,
                 "B4": 50,
-                "B5": 20,
-                "RD": 5,
+                "RD": 5,  # assuming no retriggers
             },
         }
 
-        self.include_padding = True
-        self.special_symbols = {"scatter": ["RD"], "multiplier": []}
+        self.include_padding = False
+        self.special_symbols = {
+            "scatter": ["BB"],
+            "prize": list(self.paytable.keys()),
+            "multiplier": [],
+        }  # BB: bird bonus
 
         self.freespin_triggers = {
             self.basegame_type: {1: 3},
@@ -90,13 +93,9 @@ class GameConfig(Config):
             self.basegame_type: float("inf"),
             self.freegame_type: float("inf"),
         }
-        # Reels
-        self.reels = {}
-        # for r, f in reels.items():
-        #     self.reels[r] = self.read_reels_csv(os.path.join(self.reels_path, f))
 
-        self.padding_reels[self.basegame_type] = self.reels["BR0"]
-        self.padding_reels[self.freegame_type] = self.reels["FR0"]
+        self.padding_reels[self.basegame_type] = []
+        self.padding_reels[self.freegame_type] = []
         self.bet_modes = [
             BetMode(
                 name="base",

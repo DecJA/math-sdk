@@ -15,6 +15,7 @@ class GameStateOverride(GameExecutables):
         # Reset parameters relevant to local game only
         self.birds_on_screen = []
         self.winning_birds_on_screen = []
+        self.scatter_on_screen = False
 
     def reset_fs_spin(self):
         super().reset_fs_spin()
@@ -22,14 +23,8 @@ class GameStateOverride(GameExecutables):
         self.winning_birds_on_screen = []
 
     def assign_special_sym_function(self):
-        self.special_symbol_functions = {"B1": [self.assign_mult_property]}
-
-    def assign_mult_property(self, symbol):
-        """Use betmode conditions to assign multiplier attribute to multiplier symbol."""
-        multiplier_value = get_random_outcome(
-            self.get_current_distribution_conditions()["mult_values"][self.gametype]
-        )
-        symbol.assign_attribute({"multiplier": multiplier_value})
+        pass
+        # self.special_symbol_functions = {"B1": [self.assign_mult_property]}
 
     def check_game_repeat(self):
         """Verify final win matches required betmode conditions."""
