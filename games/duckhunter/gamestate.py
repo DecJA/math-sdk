@@ -10,16 +10,15 @@ class GameState(GameStateOverride):
         self.repeat = True
         while self.repeat:
             self.reset_book()
-            self.draw_board()
 
-            self.get_scatterpays_update_wins()
-            self.emit_tumble_win_events()  # Transmit win information
+            self.get_display_birds()
+            # todo: transmit reveal event
+            self.assign_default_bird_properties()
 
-            while self.win_data["totalWin"] > 0 and not (self.wincap_triggered):
-                self.tumble_game_board()
-                self.get_scatterpays_update_wins()
+            self.win_data = self.get_winning_birds()
 
-            self.set_end_tumble_event()
+            # todo: transmit win info
+            self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
 
             if self.check_fs_condition() and self.check_freespin_entry():

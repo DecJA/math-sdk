@@ -13,11 +13,13 @@ class GameStateOverride(GameExecutables):
         # Reset global values used across multiple projects
         super().reset_book()
         # Reset parameters relevant to local game only
-        self.tumble_win = 0
+        self.birds_on_screen = []
+        self.winning_birds_on_screen = []
 
     def reset_fs_spin(self):
         super().reset_fs_spin()
-        self.global_multiplier = 1
+        self.birds_on_screen = []
+        self.winning_birds_on_screen = []
 
     def assign_special_sym_function(self):
         self.special_symbol_functions = {"B1": [self.assign_mult_property]}

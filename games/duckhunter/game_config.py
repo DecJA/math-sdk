@@ -43,6 +43,24 @@ class GameConfig(Config):
 
         self.num_display_birds = 5
 
+        self.num_winning_birds = {
+            self.basegame_type: {
+                0: 1000,
+                1: 200,
+                2: 100,
+                3: 50,
+                4: 20,
+                5: 5,
+            },
+            self.freegame_type: {
+                0: 100,
+                1: 200,
+                2: 300,
+                3: 200,
+                4: 50,
+                5: 20,
+            },
+        }
         self.bird_selection = {
             self.basegame_type: {
                 "B1": 1000,
