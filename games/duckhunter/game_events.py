@@ -39,13 +39,14 @@ def bird_win_info_event(gamestate):
         )
         win_data_copy["wins"][idx]["positions"] = new_positions
 
-    event = {
-        "index": len(gamestate.book.events),
-        "type": EventConstants.WIN_DATA.value,
-        "totalWin": int(round(min(gamestate.win_data["totalWin"], gamestate.config.wincap) * 100, 0)),
-        "wins": win_data_copy["wins"],
-    }
-    gamestate.book.add_event(event)
+    if gamestate.win_data["totalWin"] > 0:
+        event = {
+            "index": len(gamestate.book.events),
+            "type": EventConstants.WIN_DATA.value,
+            "totalWin": int(round(min(gamestate.win_data["totalWin"], gamestate.config.wincap) * 100, 0)),
+            "wins": win_data_copy["wins"],
+        }
+        gamestate.book.add_event(event)
 
 
 def send_mult_info_event(gamestate, board_mult: int, mult_info: dict, base_win: float, updatedWin: float):

@@ -10,6 +10,7 @@ from src.events.events import (
     update_freespin_event,
     final_win_event,
     update_global_mult_event,
+    enter_bonus_event,
 )
 
 
@@ -71,6 +72,7 @@ class Executables(Conditions, Tumble):
             }
         )
         self.update_freespin_amount()
+        # enter_bonus_event(self)
         self.run_freespin()
 
     def update_freespin_amount(self, scatter_key: str = "scatter") -> None:
@@ -80,7 +82,9 @@ class Executables(Conditions, Tumble):
             basegame_trigger, freegame_trigger = True, False
         else:
             basegame_trigger, freegame_trigger = False, True
-        fs_trigger_event(self, basegame_trigger=basegame_trigger, freegame_trigger=freegame_trigger)
+        fs_trigger_event(
+            self, include_padding_index=False, basegame_trigger=basegame_trigger, freegame_trigger=freegame_trigger
+        )
 
     def update_fs_retrigger_amt(self, scatter_key: str = "scatter") -> None:
         """Update total freespin amount on retrigger."""

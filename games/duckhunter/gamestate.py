@@ -1,6 +1,7 @@
 from game_override import GameStateOverride
 from src.calculations.scatter import Scatter
 from game_events import reveal_bird_event, bird_win_info_event
+from src.events.events import set_win_event, set_total_event
 
 
 class GameState(GameStateOverride):
@@ -18,10 +19,14 @@ class GameState(GameStateOverride):
 
             self.win_data = self.get_winning_birds()
             reveal_bird_event(self)
-            self.evaluate_wincap()
-            bird_win_info_event(self)
             self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
+
+            if len(self.win_data["wins"]) > 0:
+                bird_win_info_event(self)
+                set_win_event(self)
+                set_total_event(self)
+            self.evaluate_wincap()
 
             if self.check_fs_condition() and self.check_freespin_entry():
                 self.run_freespin_from_base()
@@ -34,7 +39,7 @@ class GameState(GameStateOverride):
     def run_freespin(self):
         self.triggered_freegame = True
         self.reset_fs_spin()
-        while self.fs < self.tot_fs:
+        while self.fs < self.tot_fs and not (self.wincap_triggered):
             # Resets global multiplier at each spin
             self.update_freespin()
 
@@ -44,10 +49,15 @@ class GameState(GameStateOverride):
 
             self.win_data = self.get_winning_birds()
             reveal_bird_event(self)
-            self.evaluate_wincap()
-            bird_win_info_event(self)
+
             self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
             self.win_manager.update_gametype_wins(self.gametype)
+            # send win events if needed
+            if len(self.win_data["wins"]) > 0:
+                bird_win_info_event(self)
+                set_win_event(self)
+                set_total_event(self)
+            self.evaluate_wincap()
 
             # No retriggers implented
 

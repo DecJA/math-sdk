@@ -280,6 +280,5 @@ def enter_bonus_event(gamestate) -> None:
     event = {
         "index": len(gamestate.book.events),
         "type": EventConstants.ENTER_BONUS.value,
-        "reason": gamestate.bonus_type,
     }
     gamestate.book.add_event(event)

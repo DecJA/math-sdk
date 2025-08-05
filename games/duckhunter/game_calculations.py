@@ -11,10 +11,15 @@ class GameCalculations(Executables):
     def get_display_birds(self):
         bird_array = self.config.bird_selection[self.gametype]
         self.scatter_on_screen = False
-        num_birds_dispaly = get_random_outcome(self.config.)
+        # num_birds_dispaly = getr
         freegame_maxwin_spin = random.choice([0, 1, 2])
         for i in range(self.config.num_display_birds):
-            if self.get_current_distribution_conditions()["force_freegame"] and not (self.scatter_on_screen):
+            # only force scatter from basegame (no retriggers in freegame)
+            if (
+                self.get_current_distribution_conditions()["force_freegame"]
+                and not (self.scatter_on_screen)
+                and self.gametype == "basegame"
+            ):
                 bird_type = self.config.special_symbols["scatter"][0]
                 self.scatter_on_screen = True
             elif (
@@ -94,7 +99,7 @@ class GameCalculations(Executables):
     def get_winning_birds(self):
         win_data = {"totalWin": 0, "wins": []}
         for idx, _ in enumerate(self.board):
-            if self.board[idx].prize > 0:
+            if self.board[idx].is_winning:
                 win_data["totalWin"] += self.board[idx].prize
                 sym_data = {"symbol": self.board[idx].name, "positions": idx, "win": self.board[idx].prize}
                 win_data["wins"].append(sym_data)

@@ -46,7 +46,7 @@ class GameConfig(Config):
 
         self.num_winning_birds = {
             self.basegame_type: {
-                0: 10000,
+                # 0: 10000,
                 1: 200,
                 2: 100,
                 3: 50,
@@ -54,7 +54,7 @@ class GameConfig(Config):
                 5: 5,
             },
             self.freegame_type: {
-                0: 100,
+                # 0: 100,
                 1: 200,
                 2: 300,
                 3: 200,
