@@ -22,19 +22,30 @@ class GameState(GameStateOverride):
                 for idy, _ in enumerate(self.board[idx]):
                     totlVal += self.board[idx][idy].prize
 
-            if totlVal < 20:
-                print("error")
             if self.win_data["totalWin"] > 0:
                 self.winning_spin = True
             elif self.win_data["totalWin"] == 0 and self.criteria != "0":
                 raise RuntimeError
             reveal_animal_event(self)
+
+            count = {}
+            for idx, _ in enumerate(self.board):
+                for idy, _ in enumerate(self.board[idx]):
+                    s = self.board[idx][idy]
+                    try:
+                        count[s.prize] += 1
+                    except:
+                        count[s.prize] = 1
+            if sum(count.values()) != 9 or (max(count.values()) >= 3 and self.win_data["totalWin"] <= 0):
+                print("error")
             if self.win_data["totalWin"] > 0:
                 win_info_event(self, False)
                 self.evaluate_wincap()
             self.win_manager.update_gametype_wins(self.gametype)
             set_win_event(self)
             self.evaluate_finalwin()
+            if max(count.values()) >= 3 and (self.final_win <= 0 or self.win_manager.running_bet_win <= 0):
+                print("error")
 
         c = self.get_board_counts()
         match self.criteria:

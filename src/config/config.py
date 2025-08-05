@@ -13,12 +13,12 @@ class Config:
 
     def __init__(self):
         self.rtp = 0.97
-        self.game_id = "0_0_asample"
+        self.game_id = "0_0_sample"
         self.provider_name = "sample_provider"
         self.provider_number = 1
         self.game_name = "sample_lines"
-        if self.game_id != "0_0_sample":
-            self.construct_paths()
+        # if self.game_id != "0_0_sample":
+        self.construct_paths()
 
         # Win information
         self.min_denomination = 0.1

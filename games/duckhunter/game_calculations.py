@@ -11,6 +11,7 @@ class GameCalculations(Executables):
     def get_display_birds(self):
         bird_array = self.config.bird_selection[self.gametype]
         self.scatter_on_screen = False
+        num_birds_dispaly = get_random_outcome(self.config.)
         freegame_maxwin_spin = random.choice([0, 1, 2])
         for i in range(self.config.num_display_birds):
             if self.get_current_distribution_conditions()["force_freegame"] and not (self.scatter_on_screen):

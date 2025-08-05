@@ -108,12 +108,15 @@ pub(crate) fn load_force_options(
     bet_type: &str,
     path_to_games: String,
 ) -> Vec<SearchResult> {
+    println!("Name {}", game_name);
+
     let file_path = Path::new(&path_to_games)
         .join(game_name)
         .join("library")
         .join("forces")
         .join(format!("force_record_{}.json", bet_type));
     let json_file_path = Path::new(&file_path);
+    println!("Path: {}", json_file_path.display());
     let file = File::open(json_file_path).expect("Unable to open force file");
     println!("json force path: {}", json_file_path.display());
     let search_results: Vec<SearchResult> =
