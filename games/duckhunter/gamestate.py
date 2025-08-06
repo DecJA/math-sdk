@@ -13,7 +13,7 @@ class GameState(GameStateOverride):
         while self.repeat:
             self.reset_book()
 
-            self.get_display_birds()
+            self.get_display_birds(self.config.num_display_birds)
             self.assign_default_bird_properties()
             self.assign_winning_prizes()
 
@@ -24,6 +24,7 @@ class GameState(GameStateOverride):
 
             if len(self.win_data["wins"]) > 0:
                 bird_win_info_event(self)
+            if self.win_data["totalWin"] > 0:
                 set_win_event(self)
                 set_total_event(self)
             self.evaluate_wincap()
@@ -38,27 +39,21 @@ class GameState(GameStateOverride):
 
     def run_freespin(self):
         self.triggered_freegame = True
+        self.board = [[] for _ in range(self.config.num_display_bonus_birds)]
         self.reset_fs_spin()
-        while self.fs < self.tot_fs and not (self.wincap_triggered):
-            # Resets global multiplier at each spin
-            self.update_freespin()
+        self.get_display_birds(self.config.num_display_bonus_birds)
+        self.assign_default_bird_properties()
+        self.assign_winning_prizes()
 
-            self.get_display_birds()
-            self.assign_default_bird_properties()
-            self.assign_winning_prizes()
+        self.win_data = self.get_winning_birds()
+        reveal_bird_event(self)
+        self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
+        self.win_manager.update_gametype_wins(self.gametype)
 
-            self.win_data = self.get_winning_birds()
-            reveal_bird_event(self)
+        if len(self.win_data["wins"]) > 0:
+            bird_win_info_event(self)
+            set_win_event(self)
+            set_total_event(self)
+        self.evaluate_wincap()
 
-            self.win_manager.update_spinwin(win_amount=self.win_data["totalWin"])
-            self.win_manager.update_gametype_wins(self.gametype)
-            # send win events if needed
-            if len(self.win_data["wins"]) > 0:
-                bird_win_info_event(self)
-                set_win_event(self)
-                set_total_event(self)
-            self.evaluate_wincap()
-
-            # No retriggers implented
-
-        self.end_freespin()
+        # self.end_freespin()

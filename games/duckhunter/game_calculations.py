@@ -8,12 +8,13 @@ from src.executables.executables import Executables
 class GameCalculations(Executables):
     """Game specific calculations for Scatter sample game."""
 
-    def get_display_birds(self):
+    def get_display_birds(self, num_birds_on_screen):
+        self.board = [[] for _ in range(num_birds_on_screen)]
         bird_array = self.config.bird_selection[self.gametype]
         self.scatter_on_screen = False
         # num_birds_dispaly = getr
         freegame_maxwin_spin = random.choice([0, 1, 2])
-        for i in range(self.config.num_display_birds):
+        for i in range(num_birds_on_screen):
             # only force scatter from basegame (no retriggers in freegame)
             if (
                 self.get_current_distribution_conditions()["force_freegame"]
@@ -59,7 +60,7 @@ class GameCalculations(Executables):
 
     def draw_winning_birds(self, num_wins):
         winning_birds = []
-        if self.get_current_distribution_conditions()["force_freegame"]:
+        if self.get_current_distribution_conditions()["force_freegame"] and self.gametype == "basegame":
             for i, _ in enumerate(self.birds_on_screen):
                 if self.birds_on_screen[i].name == self.config.special_symbols["scatter"][0]:
                     winning_birds = [self.birds_on_screen[i]]

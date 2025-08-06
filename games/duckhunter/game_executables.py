@@ -40,11 +40,11 @@ class GameExecutables(GameCalculations):
     def update_freespin_amount(self, scatter_key: str = "scatter"):
         """Update current and total freespin number and emit event."""
         self.tot_fs = self.count_special_symbols(scatter_key) * 2
-        if self.gametype == self.config.basegame_type:
-            basegame_trigger, freegame_trigger = True, False
-        else:
-            basegame_trigger, freegame_trigger = False, True
-        fs_trigger_event(self, basegame_trigger=basegame_trigger, freegame_trigger=freegame_trigger)
+        # if self.gametype == self.config.basegame_type:
+        #     basegame_trigger, freegame_trigger = True, False
+        # else:
+        #     basegame_trigger, freegame_trigger = False, True
+        # fs_trigger_event(self, basegame_trigger=basegame_trigger, freegame_trigger=freegame_trigger)
 
     def get_scatterpays_update_wins(self):
         """Return the board since we are assigning the 'explode' attribute."""

@@ -43,6 +43,7 @@ class GameConfig(Config):
         self.paytable = pay_range
 
         self.num_display_birds = 5
+        self.num_display_bonus_birds = 20
 
         self.num_winning_birds = {
             self.basegame_type: {
@@ -54,12 +55,22 @@ class GameConfig(Config):
                 5: 5,
             },
             self.freegame_type: {
-                # 0: 100,
-                1: 200,
-                2: 300,
-                3: 200,
-                4: 50,
-                5: 20,
+                1: 10,
+                2: 50,
+                3: 100,
+                4: 100,
+                5: 200,
+                6: 200,
+                7: 200,
+                8: 100,
+                9: 80,
+                10: 50,
+                12: 40,
+                14: 30,
+                15: 20,
+                17: 10,
+                19: 5,
+                20: 2,
             },
         }
         self.bird_selection = {
@@ -134,16 +145,16 @@ class GameConfig(Config):
                             "force_freegame": True,
                         },
                     ),
-                    Distribution(
-                        criteria="0",
-                        quota=0.4,
-                        win_criteria=0.0,
-                        conditions={
-                            "reel_weights": {self.basegame_type: {"BR0": 1}},
-                            "force_wincap": False,
-                            "force_freegame": False,
-                        },
-                    ),
+                    # Distribution(
+                    #     criteria="0",
+                    #     quota=0.4,
+                    #     win_criteria=0.0,
+                    #     conditions={
+                    #         "reel_weights": {self.basegame_type: {"BR0": 1}},
+                    #         "force_wincap": False,
+                    #         "force_freegame": False,
+                    #     },
+                    # ),
                     Distribution(
                         criteria="basegame",
                         quota=0.5,
