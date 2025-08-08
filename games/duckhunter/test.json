@@ -1,0 +1,209 @@
+{
+    "id": 23,
+    "payoutMultiplier": 9000,
+    "events": [
+        {
+            "index": 0,
+            "type": "reveal",
+            "board": [
+                {
+                    "name": "BB",
+                    "scatter": true,
+                    "prize": 0,
+                    "winning": true
+                },
+                {
+                    "name": "B1",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B1",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B1",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                }
+            ],
+            "gameType": "basegame"
+        },
+        {
+            "index": 1,
+            "type": "winInfo",
+            "totalWin": 0,
+            "wins": [
+                {
+                    "symbol": "BB",
+                    "positions": 0,
+                    "win": 0
+                }
+            ]
+        },
+        {
+            "index": 2,
+            "type": "reveal",
+            "board": [
+                {
+                    "name": "B2",
+                    "prize": 1000,
+                    "winning": true
+                },
+                {
+                    "name": "B2",
+                    "prize": 1000,
+                    "winning": true
+                },
+                {
+                    "name": "B2",
+                    "prize": 1000,
+                    "winning": true
+                },
+                {
+                    "name": "B2",
+                    "prize": 1000,
+                    "winning": true
+                },
+                {
+                    "name": "B3",
+                    "prize": 5000,
+                    "winning": true
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B3",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B3",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B4",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B3",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                },
+                {
+                    "name": "B2",
+                    "prize": 0,
+                    "winning": false
+                }
+            ],
+            "gameType": "freegame"
+        },
+        {
+            "index": 3,
+            "type": "winInfo",
+            "totalWin": 9000,
+            "wins": [
+                {
+                    "symbol": "B2",
+                    "positions": 0,
+                    "win": 1000
+                },
+                {
+                    "symbol": "B2",
+                    "positions": 1,
+                    "win": 1000
+                },
+                {
+                    "symbol": "B2",
+                    "positions": 2,
+                    "win": 1000
+                },
+                {
+                    "symbol": "B2",
+                    "positions": 3,
+                    "win": 1000
+                },
+                {
+                    "symbol": "B3",
+                    "positions": 4,
+                    "win": 5000
+                }
+            ]
+        },
+        {
+            "index": 4,
+            "type": "setWin",
+            "amount": 9000,
+            "winLevel": 8
+        },
+        {
+            "index": 5,
+            "type": "setTotalWin",
+            "amount": 9000
+        },
+        {
+            "index": 6,
+            "type": "finalWin",
+            "amount": 9000
+        }
+    ],
+    "criteria": "freegame",
+    "baseGameWins": 0.0,
+    "freeGameWins": 90.0
+}

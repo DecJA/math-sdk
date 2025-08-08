@@ -39,7 +39,7 @@ def bird_win_info_event(gamestate):
         )
         win_data_copy["wins"][idx]["positions"] = new_positions
 
-    if gamestate.win_data["totalWin"] > 0:
+    if len(gamestate.win_data["wins"]) > 0:
         event = {
             "index": len(gamestate.book.events),
             "type": EventConstants.WIN_DATA.value,

@@ -1,3 +1,4 @@
+import random
 from game_override import GameStateOverride
 from src.calculations.scatter import Scatter
 from game_events import reveal_bird_event, bird_win_info_event
@@ -16,6 +17,7 @@ class GameState(GameStateOverride):
             self.get_display_birds(self.config.num_display_birds)
             self.assign_default_bird_properties()
             self.assign_winning_prizes()
+            random.shuffle(self.board)
 
             self.win_data = self.get_winning_birds()
             reveal_bird_event(self)
